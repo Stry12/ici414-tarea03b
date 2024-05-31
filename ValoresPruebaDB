@@ -1,0 +1,32 @@
+INSERT INTO vendedor (numeroVendedor, nombreVendedor) VALUES
+(1, 'Juan Perez'),
+(2, 'Maria Gonzalez'),
+(3, 'Carlos Ramirez'),
+(4, 'Ana Fernandez'),
+(5, 'Luis Martinez');
+
+INSERT INTO comprador (idComprador, nombreComprador) VALUES
+(1, 'Sofia Lopez'),
+(2, 'Pedro Sanchez'),
+(3, 'Laura Gomez'),
+(4, 'Diego Torres'),
+(5, 'Marta Castillo');
+
+INSERT INTO TipoProducto (idTipoProducto, descripcionProducto) VALUES
+(1, 'Electronics'),
+(2, 'Books'),
+(3, 'Clothing'),
+(4, 'Home Appliances'),
+(5, 'Toys');
+
+INSERT INTO Producto (numeroVendedor, idComprador, idTipoProducto, precioCompra) VALUES
+(1, 1, 1, 100),
+(2, 2, 2, 50),
+(3, 3, 3, 75),
+(4, 4, 4, 150),
+(5, 5, 5, 200),
+(1, 2, 3, 60),
+(2, 3, 4, 110),
+(3, 4, 5, 140),
+(4, 5, 1, 180),
+(5, 1, 2, 90);
