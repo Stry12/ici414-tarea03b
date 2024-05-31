@@ -14,7 +14,8 @@ const connectionConfig = {
 const connection = mysql.createConnection({
   host: connectionConfig.host,
   user: connectionConfig.user,
-  password: connectionConfig.password
+  password: connectionConfig.password,
+  port: connectionConfig.port
 });
 
 // Create database if not exists
