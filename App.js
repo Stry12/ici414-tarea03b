@@ -23,5 +23,7 @@ App.use((err, req, res, next) => {
     res.status(500).send('Something went wrong!');
 });
 
+// Rutas
+App.use('/vendedor', require('./src/Rutas/Vendedor.js'));
 
 module.exports = App; // Exportar la aplicación para usarla en index.js
