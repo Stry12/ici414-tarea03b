@@ -9,4 +9,5 @@ module.exports = {
     USERDB: process.env.USERDB,
     DATABASE: process.env.DATABASE,
     PASSDB: process.env.PASSDB,
+    PORTDB: process.env.PORTDB
 }

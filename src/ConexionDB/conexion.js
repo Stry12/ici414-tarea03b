@@ -6,6 +6,7 @@ const connectionConfig = {
   host: values.HOST,
   user: values.USERDB,
   database: values.DATABASE,
+  port: values.PORTDB,
   password: values.PASSDB
 };
 
