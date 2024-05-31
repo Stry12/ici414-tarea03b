@@ -1,4 +1,4 @@
-src/.env
+.env
 node_modules/*
 node_modules/.package-lock.json
 node_modules/.bin/ejs
@@ -1024,3 +1024,5 @@ node_modules/vary/index.js
 node_modules/vary/LICENSE
 node_modules/vary/package.json
 node_modules/vary/README.md
+.env
+.env
