@@ -92,4 +92,4 @@ connection.query(`CREATE DATABASE IF NOT EXISTS ${connectionConfig.database}`, (
   });
 });
 
-module.exports = connection;
+module.exports = connectionConfig;
