@@ -1,7 +1,6 @@
-const db = require('../ConexionDB/conexion.js');
-const mysql = require('mysql2');
 
-const pool = mysql.createPool(db);
+
+const pool = require('../ConexionDB/conexion.js');
 
 class CompradorGateWay {
 

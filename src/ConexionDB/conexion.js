@@ -94,4 +94,6 @@ connection.query(`CREATE DATABASE IF NOT EXISTS ${connectionConfig.database}`, (
   });
 });
 
-module.exports = connectionConfig;
+const pool = mysql.createPool(connectionConfig);
+
+module.exports = pool;
