@@ -29,6 +29,11 @@ class VendedorGateWay {
         console.log(rows);
         return rows;
     }
+
+    static async delete(id) {
+        const [rows] = await pool.promise().query('DELETE FROM Vendedor WHERE numeroVendedor = ?', [id]);
+        return rows;
+    }
 }
 
 module.exports = VendedorGateWay;
