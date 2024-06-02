@@ -12,27 +12,25 @@ class VendedorGateWay {
         return rows;
     }
 
-    static async create(id,vendedor) {
-        const [rows] = await pool.promise().query('INSERT INTO Vendedor (numeroVendedor,nombreVendedor) VALUES (?,?)', [id,vendedor]);
-        return rows;
+    static async create(id,vendedor, conexion) {
+        await conexion.query('INSERT INTO Vendedor (numeroVendedor,nombreVendedor) VALUES (?,?)', [id,vendedor]);
     }
 
-    static async updateNombre(id, vendedor) {
-        const [rows] = await pool.promise().query('UPDATE Vendedor SET nombreVendedor = ? WHERE numeroVendedor = ?', [vendedor, id]);
-        return rows;
+    static async exist(id, conexion) {
+        const [rows] = await conexion.query('SELECT * FROM Vendedor WHERE numeroVendedor = ?', [id]);
+        return rows.length > 0;
     }
 
-    static async updateID(id, nuevoID) {
-        console.log(id);
-        console.log(nuevoID);
-        const [rows] = await pool.promise().query('UPDATE vendedor SET numeroVendedor = ? WHERE numeroVendedor = ?', [nuevoID,id]);
-        console.log(rows);
-        return rows;
+    static async updateNombre(id, vendedor, conexion) {
+        await conexion.query('UPDATE Vendedor SET nombreVendedor = ? WHERE numeroVendedor = ?', [vendedor, id]);
     }
 
-    static async delete(id) {
-        const [rows] = await pool.promise().query('DELETE FROM Vendedor WHERE numeroVendedor = ?', [id]);
-        return rows;
+    static async updateID(id, nuevoID,conexion) {
+        await conexion.query('UPDATE vendedor SET numeroVendedor = ? WHERE numeroVendedor = ?', [nuevoID,id]);
+    }
+
+    static async delete(id, conexion) {
+        conexion.query('DELETE FROM Vendedor WHERE numeroVendedor = ?', [id]);
     }
 }
 

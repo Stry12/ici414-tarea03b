@@ -1,4 +1,5 @@
 const mysql = require('mysql2');
+const mysql2 = require('mysql2/promise');
 const values = require('../constantes/const.js');
 
 // Connection configuration
@@ -94,6 +95,6 @@ connection.query(`CREATE DATABASE IF NOT EXISTS ${connectionConfig.database}`, (
   });
 });
 
-const pool = mysql.createPool(connectionConfig);
+const pool = mysql2.createPool(connectionConfig);
 
 module.exports = pool;

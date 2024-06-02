@@ -4,25 +4,25 @@ POST http://localhost:4000/vendedor/create
 Content-Type: application/json
 
 {
-    "id": 4,
+    "id": 6,
     "nombre": "Jorge Arriagada"
 }
 
 ###
-PUT http://localhost:4000/vendedor/updateNombre/4
+PUT http://localhost:4000/vendedor/updateNombre/6
 Content-Type: application/json
 
 {
-    "nombre": "Fabrian riquelme"
+    "nombre": "Ricador Donoso"
 }
 
 ###
-PUT http://localhost:4000/vendedor/updateID/3
+PUT http://localhost:4000/vendedor/updateID/6
 Content-Type: application/json
 
 {
-    "id": 2
+    "id": 3
 }
 
 ###
-DELETE http://localhost:4000/vendedor/delete/2
+DELETE http://localhost:4000/vendedor/delete/3

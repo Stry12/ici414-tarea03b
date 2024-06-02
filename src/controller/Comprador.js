@@ -23,9 +23,8 @@ class CompradorController {
 
     static async create(req, res) {
         try {
-            console.log(req.body);
             const { id,nombre } = req.body;
-            const comprador = await CompradorService.crearComprador(id,nombre);
+            const comprador = await CompradorService.crear(id,nombre);
             if (!comprador) {
                 return res.status(400).send('Comprador already exists');
             }
@@ -42,7 +41,7 @@ class CompradorController {
             if (!comprador) {
                 return res.status(404).send('Comprador not found');
             }
-            return res.json(comprador);
+            res.status(200).json({mensaje: 'Comprador actualizado correctamente'});
         } catch (error) {
             console.error(error);
             res.status(500).send('Internal server error');
@@ -55,7 +54,7 @@ class CompradorController {
             if (!comprador) {
                 return res.status(404).send('Comprador not found');
             }
-            return res.json(comprador);
+            res.status(200).json({mensaje: 'id de comprador actualizada correctamente'});
         } catch (error) {
             console.error(error);
             res.status(500).send('Internal server error');
@@ -65,11 +64,10 @@ class CompradorController {
     static async delete(req, res) {
         try {
             const comprador = await CompradorService.delete(req.params.id);
-            console.log(comprador);
             if (comprador === false) {
                 return res.status(404).send('Comprador not found');
             }
-            return res.status(204).send();
+            return res.status(200).json({mensaje: 'Comprador eliminado correctamente'});
         } catch (error) {
             console.error(error);
             res.status(500).send('Internal server error');

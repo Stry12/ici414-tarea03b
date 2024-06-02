@@ -1,47 +1,120 @@
 const VendedorGateWay = require('../GateWays/Vendedor.js');
+const pool = require('../ConexionDB/conexion.js');
 
 class VendedorService {
 
     static async crearVendedor(id,nombre){
-        const nombreV = this.validarNombreCompleto(nombre);
-        const existV = this.validar_existencia(id);
-        if (!existV || !nombreV) {
-            return false;
-        }
-        return VendedorGateWay.create(id,nombre);
-    }
+        const conexion = await pool.getConnection();
+        try{
+            await conexion.beginTransaction();
 
+            const nombreV = await this.validarNombreCompleto(nombre);
+            const existV = await VendedorGateWay.exist(id,conexion);
+
+            if (existV) {
+                await conexion.rollback();
+                return false;
+            }
+            if (!nombreV) {
+                await conexion.rollback();
+                return false;
+            }
+
+            await VendedorGateWay.create(id,nombre,conexion);
+
+            await conexion.commit();
+            return true;
+        }catch(error){
+            await conexion.rollback();
+            return false;
+        } finally {
+            conexion.release();
+        }
+    }
+    
     static async updateNombre(id, nombre){
-        const nombreV = await  this.validarNombreCompleto(nombre);
-        const existV = await this.validar_existencia(id);
-        if (nombreV) {
+        const conexion = await pool.getConnection();
+        try {
+            await conexion.beginTransaction();
+
+            const nombreV = await this.validarNombreCompleto(nombre);
+            const existV = await VendedorGateWay.exist(id,conexion);
+
+            if (!existV) {
+                await conexion.rollback();
+                return false;
+            }
+            if (!nombreV) {
+                await conexion.rollback();
+                return false;
+            }
+
+            await VendedorGateWay.updateNombre(id,nombre,conexion);
+
+            await conexion.commit();
+            return true;
+        } catch (error) {
+            await conexion.rollback();
             return false;
         }
-        if(!existV){
-            return false;
+        finally {
+            conexion.release();
         }
-        return VendedorGateWay.updateNombre(id,nombre);
     }
 
     static async updateID(id,nuevoID){
-        const existV = await this.validar_existencia(id);
-        const existN = await this.validar_existencia(nuevoID);
+        const conexion = await pool.getConnection();
+        try{
+            await conexion.beginTransaction();
 
-        if(existN){
+            const existV = await VendedorGateWay.exist(id,conexion);
+            const existN = await VendedorGateWay.exist(nuevoID,conexion);
+
+            if (existN) {
+                await conexion.rollback();
+                return false;
+            }
+            if (!existV) {
+                await conexion.rollback();
+                return false;
+            }
+
+            await VendedorGateWay.updateID(id,nuevoID,conexion);
+
+            await conexion.commit();
+            return true;
+        } catch (error) {
+            await conexion.rollback();
             return false;
         }
-        if(!existV){
-            return false;
+        finally {
+            conexion.release();
         }
-        return VendedorGateWay.updateID(id,nuevoID);
     }
 
-    static async delete(id){
-        const existV = await this.validar_existencia(id);
-        if(!existV){
+    static async delete(id) {
+        const conexion = await pool.getConnection();
+        try {
+            await conexion.beginTransaction();
+
+            const existV = await VendedorGateWay.exist(id,conexion);
+
+            if (!existV) {
+                await conexion.rollback();
+                return false;
+            }
+
+            await VendedorGateWay.delete(id,conexion);
+
+            await conexion.commit();
+            return true;
+        } catch (error) {
+            await conexion.rollback();
             return false;
         }
-        return VendedorGateWay.delete(id);
+        finally {
+            conexion.release();
+        }
     }
 
 
@@ -57,15 +130,6 @@ class VendedorService {
           return false;
         }
 
-        return true;
-    }
-
-    static async validar_existencia(id){
-        const exist = await VendedorGateWay.getById(id);
-
-        if (exist.length === 0) {
-            return false;
-        }
         return true;
     }
 }

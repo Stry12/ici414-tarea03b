@@ -1,70 +1,138 @@
 const CompradorGateWay = require('../GateWays/Comprador.js');
+const pool = require('../ConexionDB/conexion.js');
 
 class CompradorService {
 
-  static async crearComprador(id,nombre){
-    this.validarNombreCompleto(nombre);
-    const exist = await this.validar_existencia(id);
-    console.log(exist);
-    if (exist) {
-      return false;
-    }
-    return CompradorGateWay.create(id,nombre);
-  }
+    static async crear(id,nombre){
+        const conexion = await pool.getConnection();
+        try{
+          await conexion.beginTransaction();
+            
+          const nombreV = await this.validarNombreCompleto(nombre);
+          const existV = await CompradorGateWay.exist(id,conexion);
 
-  static validarNombreCompleto(nombreCompleto) {
-    const regex = /^[A-Z][a-z]+(\s[A-Z][a-z]+)+$/; 
-  
-    if (!regex.test(nombreCompleto)) {
-        throw new Error('El nombre debe tener el formato Nombre Apellido');
-    }
-  
-    const caracteresEspeciales = /[^A-Za-z\s-]/; 
-    if (caracteresEspeciales.test(nombreCompleto)) {
-      throw new Error('El nombre no puede contener caracteres especiales');
-    }
-  }
 
-  static async delete(id){
-    const exist = await this.validar_existencia(id);
-    if (!exist) {
-      return false;
-    }
-    
-    return CompradorGateWay.delete(id);
-  }
+          if (existV) {
+              await conexion.rollback();
+              return false;
+          }
+          if (!nombreV) {
+              await conexion.rollback();
+              return false;
+          }
 
-  static async validar_existencia(id){
-    const exist = await CompradorGateWay.getById(id);
-    if (exist.length === 0) {
-      return false;
-    }
-    return true;
+          await CompradorGateWay.create(id,nombre,conexion);
+
+          await conexion.commit();
+          return true;
+        } catch (error) {
+            await conexion.rollback();
+            return false;
+        }
+        finally {
+            conexion.release();
+        }
   }
 
   static async updateNombre(id, nombre){
-    this.validarNombreCompleto(nombre);
-    const exist = this.validar_existencia(id);
+      const conexion = await pool.getConnection();
+      try {
+          await conexion.beginTransaction();
 
-    if (!exist) {
-      return false
-    }
-    return CompradorGateWay.updateNombre(id, nombre);;
+          const nombreV = await this.validarNombreCompleto(nombre);
+          const existV = await CompradorGateWay.exist(id,conexion);
+
+          if (!existV) {
+              await conexion.rollback();
+              return false;
+          }
+          if (!nombreV) {
+              await conexion.rollback();
+              return false;
+          }
+
+          await CompradorGateWay.updateNombre(id,nombre,conexion);
+
+          await conexion.commit();
+          return true;
+      } catch (error) {
+          await conexion.rollback();
+          return false;
+      }
+      finally {
+          conexion.release();
+      }
   }
 
   static async updateID(id,nuevoID){
-    const exist = await this.validar_existencia(id);
-    const existNuevoID = await this.validar_existencia(nuevoID);
-    console.log(exist);
-    console.log(existNuevoID);
-    if (existNuevoID) {
-      return false;
-    }
+      const conexion = await pool.getConnection();
+      try{
+          await conexion.beginTransaction();
 
-    if (!exist) {
-      return false;
-    }
-    return CompradorGateWay.updateID(id,nuevoID);
+          const existV = await CompradorGateWay.exist(id,conexion);
+          const existN = await CompradorGateWay.exist(nuevoID,conexion);
+
+          if (existN) {
+              await conexion.rollback();
+              return false;
+          }
+          if (!existV) {
+              await conexion.rollback();
+              return false;
+          }
+
+          await CompradorGateWay.updateID(id,nuevoID,conexion);
+
+          await conexion.commit();
+          return true;
+      } catch (error) {
+          await conexion.rollback();
+          return false;
+      }
+      finally {
+          conexion.release();
+      }
+  }
+
+  static async delete(id) {
+      const conexion = await pool.getConnection();
+      try {
+          await conexion.beginTransaction();
+
+          const existV = await CompradorGateWay.exist(id,conexion);
+
+          if (!existV) {
+              await conexion.rollback();
+              return false;
+          }
+
+          await CompradorGateWay.delete(id,conexion);
+
+          await conexion.commit();
+          return true;
+      } catch (error) {
+          await conexion.rollback();
+          return false;
+      }
+      finally {
+          conexion.release();
+      }
+  }
+
+
+  static validarNombreCompleto(nombreCompleto) {
+      const regex = /^[A-Z][a-z]+(\s[A-Z][a-z]+)+$/; 
+        
+      if (!regex.test(nombreCompleto)) {
+          return false;
+      }
+        
+      const caracteresEspeciales = /[^A-Za-z\s-]/; 
+      if (caracteresEspeciales.test(nombreCompleto)) {
+        return false;
+      }
+
+      return true;
   }
 }
 
