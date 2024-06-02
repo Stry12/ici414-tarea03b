@@ -1,0 +1,55 @@
+POST http://localhost:4000/comprador/create
+Content-Type: application/json
+
+{
+    "id": 3,
+    "nombre": "Juan Mortega"
+}
+
+###
+
+POST http://localhost:4000/vendedor/create
+Content-Type: application/json
+
+{
+    "id": 3,
+    "nombre": "Jorge Arriagada"
+}
+
+###
+
+DELETE  http://localhost:4000/comprador/delete/2
+
+
+###
+
+PUT http://localhost:4000/comprador/updateNombre/0
+Content-Type: application/json
+
+{
+    "nombre": "Pedro Donoso"
+}
+
+###
+PUT http://localhost:4000/vendedor/updateNombre/2
+Content-Type: application/json
+
+{
+    "nombre": "Juan Mortega"
+}
+
+###
+PUT http://localhost:4000/comprador/updateID/3
+Content-Type: application/json
+
+{
+    "id": 4
+}
+
+###
+PUT http://localhost:4000/vendedor/updateID/4
+Content-Type: application/json
+
+{
+    "id": 0
+}
