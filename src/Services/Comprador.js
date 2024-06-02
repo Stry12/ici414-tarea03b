@@ -5,7 +5,7 @@ class CompradorService {
   static async crearComprador(id,nombre){
     this.validarNombreCompleto(nombre);
     const exist = this.validar_existencia(id);
-    if (!exist) {
+    if (exist) {
       return false;
     }
     return CompradorGateWay.create(id,nombre);
@@ -25,7 +25,7 @@ class CompradorService {
   }
 
   static async delete(id){
-    const exist = this.validar_existencia(id);
+    const exist = await this.validar_existencia(id);
     if (!exist) {
       return false;
     }
@@ -52,9 +52,15 @@ class CompradorService {
   }
 
   static async updateID(id,nuevoID){
-    const exist = this.validar_existencia(id);
-    const existNuevoID = this.validar_existencia(nuevoID);
-    if (!exist && !existNuevoID) {
+    const exist = await this.validar_existencia(id);
+    const existNuevoID = await this.validar_existencia(nuevoID);
+    console.log(exist);
+    console.log(existNuevoID);
+    if (existNuevoID) {
+      return false;
+    }
+
+    if (!exist) {
       return false;
     }
     return CompradorGateWay.updateID(id,nuevoID);

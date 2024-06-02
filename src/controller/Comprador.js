@@ -65,7 +65,8 @@ class CompradorController {
     static async delete(req, res) {
         try {
             const comprador = await CompradorService.delete(req.params.id);
-            if (!comprador) {
+            console.log(comprador);
+            if (comprador === false) {
                 return res.status(404).send('Comprador not found');
             }
             return res.status(204).send();
