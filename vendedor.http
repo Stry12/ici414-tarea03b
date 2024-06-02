@@ -1,0 +1,28 @@
+###
+
+POST http://localhost:4000/vendedor/create
+Content-Type: application/json
+
+{
+    "id": 4,
+    "nombre": "Jorge Arriagada"
+}
+
+###
+PUT http://localhost:4000/vendedor/updateNombre/4
+Content-Type: application/json
+
+{
+    "nombre": "Fabrian riquelme"
+}
+
+###
+PUT http://localhost:4000/vendedor/updateID/3
+Content-Type: application/json
+
+{
+    "id": 2
+}
+
+###
+DELETE http://localhost:4000/vendedor/delete/2

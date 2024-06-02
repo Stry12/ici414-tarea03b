@@ -4,7 +4,8 @@ class CompradorService {
 
   static async crearComprador(id,nombre){
     this.validarNombreCompleto(nombre);
-    const exist = this.validar_existencia(id);
+    const exist = await this.validar_existencia(id);
+    console.log(exist);
     if (exist) {
       return false;
     }

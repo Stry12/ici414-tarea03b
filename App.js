@@ -27,5 +27,6 @@ App.use((err, req, res, next) => {
 App.use('/vendedor', require('./src/Rutas/Vendedor.js'));
 App.use('/comprador', require('./src/Rutas/Comprador.js'));
 App.use('/tipoProducto', require('./src/Rutas/TipoProducto.js'));
+App.use('/producto', require('./src/Rutas/Producto.js'));
 
 module.exports = App; // Exportar la aplicación para usarla en index.js

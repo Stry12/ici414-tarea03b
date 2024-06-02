@@ -3,7 +3,8 @@ const TipoProductoGateWay = require('../GateWays/TipoProducto.js');
 class TipoProductoService {
     static async crearTipoProducto(id, descripcionProducto) {
         const existTP = await this.validar_existencia(id);
-        if (!existTP) {
+        console.log(existTP);
+        if (existTP) {
             return false;
         }
         return TipoProductoGateWay.create(id, descripcionProducto);

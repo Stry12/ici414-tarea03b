@@ -1,0 +1,28 @@
+POST http://localhost:4000/comprador/create
+Content-Type: application/json
+
+{
+    "id": 5,
+    "nombre": "Juan Mortega"
+}
+
+###
+
+PUT http://localhost:4000/comprador/updateNombre/0
+Content-Type: application/json
+
+{
+    "nombre": "Pedro Pascal"
+}
+
+###
+PUT http://localhost:4000/comprador/updateID/3
+Content-Type: application/json
+
+{
+    "id": 5
+}
+
+###
+
+DELETE  http://localhost:4000/comprador/delete/0

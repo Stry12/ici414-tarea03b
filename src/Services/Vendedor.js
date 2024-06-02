@@ -14,8 +14,6 @@ class VendedorService {
     static async updateNombre(id, nombre){
         const nombreV = await  this.validarNombreCompleto(nombre);
         const existV = await this.validar_existencia(id);
-        console.log(nombreV);
-        console.log(existV);
         if (nombreV) {
             return false;
         }
