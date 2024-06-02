@@ -11,25 +11,26 @@ class TipoProductoGateWay {
             const [rows] = await pool.promise().query('SELECT * FROM tipoproducto WHERE idTipoProducto = ?', [id]);
             return rows;
         }
-    
-        static async create(id,tipoProducto) {
-            const [rows] = await pool.promise().query('INSERT INTO tipoproducto (idTipoProducto,descripcionProducto) VALUES (?,?)', [id,tipoProducto]);
-            return rows;
+
+        static async exist(id,conexion) {
+            const [rows] = await conexion.query('SELECT * FROM tipoproducto WHERE idTipoProducto = ?', [id]);
+            return rows.length > 0;
         }
     
-        static async updateDescripcion(id, tipoProducto) {
-            const [rows] = await pool.promise().query('UPDATE tipoproducto SET descripcionProducto = ? WHERE idTipoProducto = ?', [tipoProducto, id]);
-            return rows;
+        static async create(id,tipoProducto,conexion) {
+            await conexion.query('INSERT INTO tipoproducto (idTipoProducto,descripcionProducto) VALUES (?,?)', [id,tipoProducto]);
         }
     
-        static async updateID(id, nuevoID) {
-            const [rows] = await pool.promise().query('UPDATE tipoproducto SET idTipoProducto = ? WHERE idTipoProducto = ?', [nuevoID,id]);
-            return rows;
+        static async updateDescripcion(id, tipoProducto,conexion) {
+            await conexion.query('UPDATE tipoproducto SET descripcionProducto = ? WHERE idTipoProducto = ?', [tipoProducto, id]);
+        }
+    
+        static async updateID(id, nuevoID,conexion) {
+            await conexion.query('UPDATE tipoproducto SET idTipoProducto = ? WHERE idTipoProducto = ?', [nuevoID,id]);
         }
 
-        static async delete(id) {
-            const [rows] = await pool.promise().query('DELETE FROM tipoproducto WHERE idTipoProducto = ?', [id]);
-            return rows;
+        static async delete(id,conexion) {
+            await conexion.query('DELETE FROM tipoproducto WHERE idTipoProducto = ?', [id]);
         }
 }
 

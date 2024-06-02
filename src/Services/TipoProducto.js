@@ -1,51 +1,111 @@
 const TipoProductoGateWay = require('../GateWays/TipoProducto.js');
+const pool = require('../ConexionDB/conexion.js');
+
 
 class TipoProductoService {
-    static async crearTipoProducto(id, descripcionProducto) {
-        const existTP = await this.validar_existencia(id);
-        console.log(existTP);
-        if (existTP) {
+    static async crear(id, descripcionProducto) {
+        const conexion = await pool.getConnection();
+        try{
+            await conexion.beginTransaction();
+
+            const existTP = await TipoProductoGateWay.exist(id, conexion);
+            if (existTP) {
+                await conexion.rollback();
+                return false;
+            }
+
+            await TipoProductoGateWay.create(id, descripcionProducto, conexion);
+
+            await conexion.commit();
+            return true;
+        } catch (error) {
+            await conexion.rollback();
             return false;
         }
-        return TipoProductoGateWay.create(id, descripcionProducto);
+        finally {
+            conexion.release();
+        }
     }
 
     static async updateDescripcion(id, descripcionProducto) {
-        const existTP = await this.validar_existencia(id);
-        console.log(existTP);
-        if (!existTP) {
+        const conexion = await pool.getConnection();
+        try{
+            await conexion.beginTransaction();
+
+            const existTP = await TipoProductoGateWay.exist(id, conexion);
+
+            if (!existTP) {
+                await conexion.rollback();
+                return false;
+            }
+
+            await TipoProductoGateWay.updateDescripcion(id, descripcionProducto, conexion);
+
+            await conexion.commit();
+            return true;
+        } catch (error) {
+            await conexion.rollback();
             return false;
         }
-        return TipoProductoGateWay.updateDescripcion(id, descripcionProducto);
+        finally {
+            conexion.release();
+        }
     }
 
     static async updateID(id, nuevoID) {
-        const existTP = await this.validar_existencia(id);
-        const existN = await this.validar_existencia(nuevoID);
-        if (existN) {
+        const conexion = await pool.getConnection();
+        try{
+            await conexion.beginTransaction();
+
+            const existTP = await TipoProductoGateWay.exist(id, conexion);
+            const existN = await TipoProductoGateWay.exist(nuevoID, conexion);
+
+            if (!existTP) {
+                await conexion.rollback();
+                return false;
+            }
+
+            if (existN) {
+                await conexion.rollback();
+                return false;
+            }
+
+            await TipoProductoGateWay.updateID(id, nuevoID, conexion);
+
+            await conexion.commit();
+            return true;
+        } catch (error) {
+            await conexion.rollback();
             return false;
         }
-        if (!existTP) {
-            return false;
+        finally {
+            conexion.release();
         }
-        return TipoProductoGateWay.updateID(id, nuevoID);
     }
 
     static async delete(id) {
-        const existTP = await this.validar_existencia(id);
-        if (!existTP) {
-            return false;
-        }
-        return TipoProductoGateWay.delete(id);
-    }
+        const conexion = await pool.getConnection();
+        try {
+            await conexion.beginTransaction();
 
-    static async validar_existencia(id) {
-        const result = await TipoProductoGateWay.getById(id);
-        console.log(result.length === 0);
-        if (result.length === 0) {
+            const existTP = await TipoProductoGateWay.exist(id, conexion);
+
+            if (!existTP) {
+                await conexion.rollback();
+                return false;
+            }
+
+            await TipoProductoGateWay.delete(id, conexion);
+
+            await conexion.commit();
+            return true;
+        } catch (error) {
+            await conexion.rollback();
             return false;
         }
-        return true;
+        finally {
+            conexion.release();
+        }
     }
 }
 

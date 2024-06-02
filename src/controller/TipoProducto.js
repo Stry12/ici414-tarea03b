@@ -5,9 +5,9 @@ class TipoProductoController {
         try {
             const id = req.body.id;
             const descripcionProducto  = req.body.descripcion;
-            const result = await TipoProductoService.crearTipoProducto(id, descripcionProducto);
+            const result = await TipoProductoService.crear(id, descripcionProducto);
             if (!result) {
-                res.status(400).send('Tipo de producto ya existente');
+                res.status(300).send('Tipo de producto ya existente');
             } else {
                 res.status(201).send('Tipo de producto creado');
             }

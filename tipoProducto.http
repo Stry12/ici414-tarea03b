@@ -8,11 +8,11 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:4000/tipoProducto/updateDescripcion/1
+PUT http://localhost:4000/tipoProducto/updateDescripcion/2
 Content-Type: application/json
 
 {
-    "descripcion": "Electrodomesticos2"
+    "descripcion": "Electrodomesticos7"
 }
 
 ###
@@ -20,8 +20,8 @@ PUT http://localhost:4000/tipoProducto/updateID/1
 Content-Type: application/json
 
 {
-    "id": 4
+    "id": 3
 }
 
 ###
-DELETE http://localhost:4000/tipoProducto/delete/4
+DELETE http://localhost:4000/tipoProducto/delete/3
