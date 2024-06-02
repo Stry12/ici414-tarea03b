@@ -29,3 +29,27 @@ Content-Type: application/json
     "idC": 4,
     "idT": 4
 }
+
+###
+DELETE http://localhost:4000/producto/deleteByidComprador
+Content-Type: application/json
+
+{
+    "idC": 5
+}
+
+###
+DELETE http://localhost:4000/producto/deleteBynumeroVendedor
+Content-Type: application/json
+
+{
+    "idV": 0
+}
+
+###
+DELETE http://localhost:4000/producto/deleteByidTipoProducto
+Content-Type: application/json
+
+{
+    "idT": 4
+}

@@ -102,39 +102,96 @@ class ProductoService {
         }
     }
 
+    static async deleteByidComprador(id) {
+        const conexion = await pool.getConnection();
+        try {
+            await conexion.beginTransaction();
+
+            const existC = await CompradorGateWay.exist(id, conexion);
+
+            const existP = await ProductoGateWay.existByidComprador(id, conexion);
+            
+            if (!existC || !existP) {
+                await conexion.rollback();
+                return false;
+            }
+
+            await ProductoGateWay.deleteByidComprador(id, conexion);
+
+            await conexion.commit();
+            return true;
+
+        } catch (error) {
+            await conexion.rollback();
+            return false;
+        }
+        finally {
+            conexion.release();
+        }
+    }
+
+    static async deleteByidTipoProducto(id) {
+        const conexion = await pool.getConnection();
+        try {
+            await conexion.beginTransaction();
+
+            const existT = await TipoProductoGateWay.exist(id, conexion);
+
+            const existP = await ProductoGateWay.existByidTipoProducto(id, conexion);
+            
+            if (!existT || !existP) {
+                await conexion.rollback();
+                return false;
+            }
+
+            await ProductoGateWay.deleteByidTipoProducto(id, conexion);
+
+            await conexion.commit();
+            return true;
+
+        } catch (error) {
+            await conexion.rollback();
+            return false;
+        }
+        finally {
+            conexion.release();
+        }
+    }
+
+    static async deleteBynumeroVendedor(id) {
+        const conexion = await pool.getConnection();
+        try {
+            await conexion.beginTransaction();
+
+            const existV = await VendedorGateWay.exist(id, conexion);
+
+            const existP = await ProductoGateWay.existBynumeroVendedor(id, conexion);
+            
+            if (!existV || !existP) {
+                await conexion.rollback();
+                return false;
+            }
+
+            await ProductoGateWay.deleteBynumeroVendedor(id, conexion);
+
+            await conexion.commit();
+            return true;
+
+        } catch (error) {
+            await conexion.rollback();
+            return false;
+        }
+        finally {
+            conexion.release();
+        }
+    }
+
     static async verificar_precio(precio){
         if(precio < 0){
             return false;
         }else{
             return true;
         }
-    }
-
-    static async deleteByidComprador(id) {
-        const exist = await ProductoService.verificar_existenciaComprador(id);
-        if(exist){
-            const rows = await ProductoGateWay.deleteByidComprador(id);
-            return true;
-        }
-        return false;
-    }
-
-    static async deleteByidTipoProducto(id) {
-        const exist = await ProductoService.verificar_existenciaTipoProducto(id);
-        if(exist){
-            const rows = await ProductoGateWay.deleteByidTipoProducto(id);
-            return true;
-        }
-        return false;
-    }
-
-    static async deleteBynumeroVendedor(id) {
-        const exist = await ProductoService.verificar_existenciaVendedor(id);
-        if(exist){
-            const rows = await ProductoGateWay.deleteBynumeroVendedor(id);
-            return true;
-        }
-        return false;
     }
 }
 

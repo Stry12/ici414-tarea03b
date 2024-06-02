@@ -1,4 +1,5 @@
 const TipoProductoGateWay = require('../GateWays/TipoProducto.js');
+const ProductoGateWay = require('../GateWays/Producto.js');
 const pool = require('../ConexionDB/conexion.js');
 
 
@@ -8,11 +9,19 @@ class TipoProductoService {
         try{
             await conexion.beginTransaction();
 
+            const existP = await ProductoGateWay.existByidTipoProducto(id, conexion);
             const existTP = await TipoProductoGateWay.exist(id, conexion);
             if (existTP) {
                 await conexion.rollback();
                 return false;
             }
+
+            if (existP) {
+                await conexion.rollback();
+                return false;
+            }
+
+            await ProductoGateWay.deleteByidTipoProducto(id, conexion);
 
             await TipoProductoGateWay.create(id, descripcionProducto, conexion);
 

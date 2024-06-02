@@ -45,13 +45,13 @@ class ProductoController {
     }
 
     static async deleteByidComprador(req, res) {
-        const { id = null } = req.body;
-        if (id != null) {
-            const response = await ProductoService.deleteByidComprador(id);
+        const { idC = null } = req.body;
+        if (idC != null) {
+            const response = await ProductoService.deleteByidComprador(idC);
             if (response) {
                 res.status(200).json({ message: 'Producto eliminado' });
             } else {
-                res.status(400).json({ message: 'Error al eliminar el producto' });
+                res.status(300).json({ message: 'Error al eliminar el producto o no existe el comprador' });
             }
         } else {
             res.status(400).json({ message: 'Faltan datos' });
@@ -59,13 +59,13 @@ class ProductoController {
     }
     
     static async deleteByidTipoProducto(req, res) {
-        const { id } = req.body;
-        if (id) {
-            const response = await ProductoService.deleteByidTipoProducto(id);
+        const { idT = null } = req.body;
+        if (idT != null)  {
+            const response = await ProductoService.deleteByidTipoProducto(idT);
             if (response) {
                 res.status(200).json({ message: 'Producto eliminado' });
             } else {
-                res.status(400).json({ message: 'Error al eliminar el producto' });
+                res.status(400).json({ message: 'Error al eliminar el producto o no existe el tipo de producto' });
             }
         } else {
             res.status(400).json({ message: 'Faltan datos' });
@@ -73,13 +73,13 @@ class ProductoController {
     }
 
     static async deleteBynumeroVendedor(req, res) {
-        const { id } = req.body;
-        if (id) {
-            const response = await ProductoService.deleteBynumeroVendedor(id);
+        const { idV = null } = req.body;
+        if (idV != null) {
+            const response = await ProductoService.deleteBynumeroVendedor(idV);
             if (response) {
                 res.status(200).json({ message: 'Producto eliminado' });
             } else {
-                res.status(400).json({ message: 'Error al eliminar el producto' });
+                res.status(300).json({ message: 'Error al eliminar el producto o no existe el vendedor' });
             }
         } else {
             res.status(400).json({ message: 'Faltan datos' });

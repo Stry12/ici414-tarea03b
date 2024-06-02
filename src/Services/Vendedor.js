@@ -1,4 +1,5 @@
 const VendedorGateWay = require('../GateWays/Vendedor.js');
+const ProductoGateWay = require('../GateWays/Producto.js');
 const pool = require('../ConexionDB/conexion.js');
 
 class VendedorService {
@@ -10,6 +11,7 @@ class VendedorService {
 
             const nombreV = await this.validarNombreCompleto(nombre);
             const existV = await VendedorGateWay.exist(id,conexion);
+            const existP = await ProductoGateWay.existBynumeroVendedor(id,conexion);
 
             if (existV) {
                 await conexion.rollback();
@@ -19,6 +21,13 @@ class VendedorService {
                 await conexion.rollback();
                 return false;
             }
+
+            if (existP) {
+                await conexion.rollback();
+                return false;
+            }
+
+            await ProductoGateWay.deleteBynumeroVendedor(id,conexion);
 
             await VendedorGateWay.create(id,nombre,conexion);
 
