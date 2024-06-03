@@ -1,4 +1,4 @@
-const TipoProductoService = require('../Services/TipoProducto.js');
+const TipoProductoService = require('../Transacciones/TipoProducto.js');
 
 class TipoProductoController {
     static async crear(req, res) {

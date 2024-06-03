@@ -1,21 +1,4 @@
-const CompradorService = require('../Services/Comprador');
-const CompradorGateWay = require('../model/Comprador.js');
-const pool = require('../ConexionDB/conexion.js');
-
-function validarNombreCompleto(nombreCompleto) {
-    const regex = /^[A-Z][a-z]+(\s[A-Z][a-z]+)+$/; 
-      
-    if (!regex.test(nombreCompleto)) {
-        return false;
-    }
-      
-    const caracteresEspeciales = /[^A-Za-z\s-]/; 
-    if (caracteresEspeciales.test(nombreCompleto)) {
-      return false;
-    }
-
-    return true;
-}
+const CompradorService = require('../Transacciones/Comprador');
 
 class CompradorController {
     static async getAll(req, res) {
@@ -62,39 +45,6 @@ class CompradorController {
         } catch (error) {
             console.error(error);
             res.status(500).send('Internal server error');
-        }
-    }
-
-    static async updateNombre2(req, res) {
-        const id = req.params.id
-        const {nombre} = req.body;
-        const conexion = await pool.getConnection();
-
-        try{
-            await conexion.beginTransaction();
-  
-            const nombreV = await validarNombreCompleto(nombre);
-            const existV = await CompradorGateWay.exist(id,conexion);
-  
-            if (!existV) {
-                await conexion.rollback();
-                res.status(404).send('Comprador not found');
-            }
-            if (!nombreV) {
-                await conexion.rollback();
-                res.status(300).send('Invalid name');
-            }
-  
-            await CompradorGateWay.updateNombre(id,nombre,conexion);
-  
-            await conexion.commit();
-            res.status(200).json({mensaje: 'Comprador actualizado correctamente'});
-        } catch (error) {
-            await conexion.rollback();
-            console.error(error);
-            res.status(500).send('Internal server error');
-        } finally {
-            conexion.release();
         }
     }
 

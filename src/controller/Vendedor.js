@@ -1,4 +1,4 @@
-const VendedorService = require('../Services/Vendedor.js');
+const VendedorService = require('../Transacciones/Vendedor.js');
 
 class VendedorController {
 
