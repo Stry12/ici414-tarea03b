@@ -1,7 +1,7 @@
-const ProductoGateWay = require('../GateWays/Producto.js');
-const VendedorGateWay = require('../GateWays/Vendedor.js');
-const CompradorGateWay = require('../GateWays/Comprador.js');
-const TipoProductoGateWay = require('../GateWays/TipoProducto.js');
+const ProductoGateWay = require('../model/Producto.js');
+const VendedorGateWay = require('../model/Vendedor.js');
+const CompradorGateWay = require('../model/Comprador.js');
+const TipoProductoGateWay = require('../model/TipoProducto.js');
 const pool = require('../ConexionDB/conexion.js');
 
 class ProductoService {

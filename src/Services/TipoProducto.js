@@ -1,5 +1,5 @@
-const TipoProductoGateWay = require('../GateWays/TipoProducto.js');
-const ProductoGateWay = require('../GateWays/Producto.js');
+const TipoProductoGateWay = require('../model/TipoProducto.js');
+const ProductoGateWay = require('../model/Producto.js');
 const pool = require('../ConexionDB/conexion.js');
 
 

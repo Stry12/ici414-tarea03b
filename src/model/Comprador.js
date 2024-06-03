@@ -1,5 +1,3 @@
-
-
 const pool = require('../ConexionDB/conexion.js');
 
 class CompradorGateWay {
