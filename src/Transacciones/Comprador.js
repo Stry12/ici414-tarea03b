@@ -128,6 +128,50 @@ class CompradorService {
       }
   }
 
+    static async getById(id) {
+        const conexion = await pool.getConnection();
+        try{
+            await conexion.beginTransaction();
+            const exist = await CompradorGateWay.exist(id,conexion);
+
+
+            if (!exist) {
+                await conexion.rollback();
+                return false;
+            }
+
+            const comprador = await CompradorGateWay.getById(id,conexion);
+
+            await conexion.commit();
+            return comprador;
+        } catch (error) {
+            await conexion.rollback();
+            return false;
+        } finally {
+            conexion.release();
+        }
+    }
+
+
+    static async getAll() {
+        const conexion = await pool.getConnection();
+        try{
+            await conexion.beginTransaction();
+
+            const compradores = await CompradorGateWay.getAll(conexion);
+
+            await conexion.commit();
+            return compradores;
+        } catch (error) {
+            await conexion.rollback();
+            return false;
+        }
+        finally {
+            conexion.release();
+        }
+
+    }
+
 
   static validarNombreCompleto(nombreCompleto) {
       const regex = /^[A-Z][a-z]+(\s[A-Z][a-z]+)+$/; 

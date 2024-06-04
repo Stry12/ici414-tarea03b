@@ -17,6 +17,35 @@ class TipoProductoController {
         }
     }
 
+    static async getAll(req, res) {
+        try {
+            const result = await TipoProductoService.getAll();
+            if (!result) {
+                res.status(400).send('No hay tipos de productos');
+            } else {
+                res.status(200).json(result);
+            }
+        }
+        catch (error) {
+            res.status(500).send(error.message);
+        }
+    }
+
+    static async getById(req, res) {
+        try {
+            const id = req.params.id;
+            const result = await TipoProductoService.getById(id);
+            if (!result) {
+                res.status(400).send('Tipo de producto no existente');
+            } else {
+                res.status(200).json(result);
+            }
+        }
+        catch (error) {
+            res.status(500).send(error.message);
+        }
+    }
+
     static async updateDescripcion(req, res) {
         try {
             const id = req.params.id;

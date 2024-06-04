@@ -40,6 +40,32 @@ class VendedorService {
             conexion.release();
         }
     }
+
+    static async getAll(){
+        const conexion = await pool.getConnection();
+        try {
+            const result = await VendedorGateWay.getAll(conexion);
+            return result;
+        } catch (error) {
+            return false;
+        }
+        finally {
+            conexion.release();
+        }
+    }
+
+    static async getById(id){
+        const conexion = await pool.getConnection();
+        try {
+            const result = await VendedorGateWay.getById(id,conexion);
+            return result;
+        } catch (error) {
+            return false;
+        }
+        finally {
+            conexion.release();
+        }
+    }
     
     static async updateNombre(id, nombre){
         const conexion = await pool.getConnection();

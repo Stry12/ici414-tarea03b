@@ -17,6 +17,35 @@ class VendedorController {
             res.status(500).send(error.message);
         }
     }
+
+    static async getAll(req, res) {
+        try {
+            const result = await VendedorService.getAll();
+            if (!result) {
+                res.status(400).send('No hay vendedores');
+            } else {
+                res.status(200).json(result);
+            }
+        }
+        catch (error) {
+            res.status(500).send(error.message);
+        }
+    }
+
+    static async getById(req, res) {
+        try {
+            const id = req.params.id;
+            const result = await VendedorService.getById(id);
+            if (!result) {
+                res.status(400).send('Vendedor no existente');
+            } else {
+                res.status(200).json(result);
+            }
+        }
+        catch (error) {
+            res.status(500).send(error.message);
+        }
+    }
     
     static async updateNombre(req, res) {
         try {

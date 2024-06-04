@@ -2,13 +2,13 @@ const pool = require('../ConexionDB/conexion.js');
 
 class VendedorGateWay {
 
-    static async getAll() {
-        const [rows] = await pool.promise().query('SELECT * FROM Vendedor');
+    static async getAll(conexion) {
+        const [rows] = await conexion.query('SELECT * FROM Vendedor');
         return rows;
     }
 
-    static async getById(id) {
-        const [rows] = await pool.promise().query('SELECT * FROM Vendedor WHERE numeroVendedor = ?', [id]);
+    static async getById(id,conexion) {
+        const [rows] = await conexion.query('SELECT * FROM Vendedor WHERE numeroVendedor = ?', [id]);
         return rows;
     }
 

@@ -36,6 +36,32 @@ class TipoProductoService {
         }
     }
 
+    static async getAll() {
+        const conexion = await pool.getConnection();
+        try {
+            const result = await TipoProductoGateWay.getAll(conexion);
+            return result;
+        } catch (error) {
+            return false;
+        }
+        finally {
+            conexion.release();
+        }
+    }
+
+    static async getById(id) {
+        const conexion = await pool.getConnection();
+        try {
+            const result = await TipoProductoGateWay.getById(id, conexion);
+            return result;
+        } catch (error) {
+            return false;
+        }
+        finally {
+            conexion.release();
+        }
+    }
+
     static async updateDescripcion(id, descripcionProducto) {
         const conexion = await pool.getConnection();
         try{
