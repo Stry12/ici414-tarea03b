@@ -10,7 +10,7 @@ class CompradorController {
                 return res.status(404).send('Compradores not found');
             }
 
-            res.status(200).render('compradores/index', { compradores });
+            res.status(200).render('compradores/nombres', { compradores });
         } catch (error) {
             console.error(error);
             res.status(500).send('Internal server error');
@@ -19,11 +19,11 @@ class CompradorController {
 
     static async getById(req, res) {
         try {
-            const comprador = await CompradorTransaccion.getById(req.params.id);
-            if (!comprador) {
+            const comprador1 = await CompradorTransaccion.getById(req.params.id);
+            if (!comprador1) {
                 return res.status(404).send('Comprador not found');
             }
-            res.status(200).json(comprador);
+            res.status(200).render('compradores/CNombre', { comprador1 });
         } catch (error) {
             console.error(error);
             res.status(500).send('Internal server error');
