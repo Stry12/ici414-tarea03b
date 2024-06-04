@@ -3,28 +3,30 @@ const VendedorService = require('../Transacciones/Vendedor.js');
 class VendedorController {
 
     static async crearVendedor(req, res) {
-        try {
-            const { id, nombre } = req.body;
-            const result = await VendedorService.crearVendedor(id, nombre);
-            if (!result) {
-                res.status(400).send('Vendedor ya existente o nombre inválido');
-            } else {
-                res.status(201).send('Vendedor creado');
-            }
-            
+    try {
+        console.log(req.body); // Imprime los datos que se envían desde el formulario
+
+        const { id, nombre } = req.body;
+        const result = await VendedorService.crearVendedor(id, nombre);
+        if (!result) {
+            res.status(400).send('Vendedor ya existente o nombre inválido');
+        } else {
+            res.status(201).send('Vendedor creado');
         }
-        catch (error) {
-            res.status(500).send(error.message);
-        }
+        
     }
+    catch (error) {
+        res.status(500).send(error.message);
+    }
+}
 
     static async getAll(req, res) {
         try {
-            const result = await VendedorService.getAll();
-            if (!result) {
+            const vendedores = await VendedorService.getAll();
+            if (!vendedores) {
                 res.status(400).send('No hay vendedores');
             } else {
-                res.status(200).json(result);
+                res.status(200).render('vendedores/lista', { vendedores });
             }
         }
         catch (error) {

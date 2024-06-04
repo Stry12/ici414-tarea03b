@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vendedor</title>
+</head>
+<body>
+    <h1>Vendedor</h1>
+
+    <% if () { %>
+        
+    <% } %>
+
+    <% if (vendedor) { %>
+        <form action="/vendedores/<%= vendedor.id %>" method="PUT">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" value="<%= vendedor.nombre %>">
+            <input type="submit" value="Actualizar">
+        </form>
+    <% } else { %>
+        <p>No se encontró el vendedor.</p>
+    <% } %>
+</body>
+</html>

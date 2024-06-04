@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Compradores</title>
+</head>
+<body>
+    <h1>Lista de Compradores</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID Comprador</th>
+                <th>Nombre Comprador</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% vendedores.forEach(vendedor => { %>
+                <tr>
+                    <td><%= vendedor.numeroVendedor %></td>
+                    <td><%= vendedor.nombreVendedor %></td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <h1>Vendedor</h1>
+
+    
+        
+   
+<form id="updateForm">
+    <label for="id">ID:</label>
+    <input type="text" id="id" name="id" required>
+    <label for="nombre">Nuevo Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required>
+    <input type="submit" value="Actualizar">
+</form>
+
+<script>
+document.getElementById('updateForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var id = document.getElementById('id').value;
+    var nombre = document.getElementById('nombre').value;
+
+    var data = { "nombre": nombre };
+    console.log(JSON.stringify(data)); // Imprime el JSON que se envía
+    fetch('/vendedor/updateNombre/' + id, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+});
+</script>
+
+<h1>Crear Vendedor</h1>
+<form id="createForm">
+    <label for="createId">ID:</label><br>
+    <input type="number" id="createId" name="id" required><br>
+    <label for="createNombre">Nombre:</label><br>
+    <input type="text" id="createNombre" name="nombre" required><br>
+    <input type="submit" value="Crear Vendedor">
+</form>
+
+<script>
+document.getElementById('createForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var id = parseInt(document.getElementById('createId').value);
+    var nombre = document.getElementById('createNombre').value;
+
+    var data = { "id": id, "nombre": nombre };
+    console.log("Datos a enviar: ", JSON.stringify(data)); // Imprime el JSON que se envía
+
+    fetch('/vendedor/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+});
+</script>
+</body>
+</html>
