@@ -44,6 +44,31 @@ class ProductoGateWay {
         const [rows] = await conexion.query('SELECT * FROM producto WHERE numeroVendedor = ?', [id]);
         return rows.length > 0;
     }
+
+    static async getAll(conexion) {
+        const [rows] = await conexion.query('SELECT * FROM producto');
+        return rows;
+    }
+
+    static async getById(idV,idC,idT, conexion) {
+        const [rows] = await conexion.query('SELECT * FROM producto WHERE numeroVendedor = ? AND idComprador = ? AND idTipoProducto = ?', [idV,idC,idT]);
+        return rows;
+    }
+
+    static async getByidComprador(id, conexion) {
+        const [rows] = await conexion.query('SELECT * FROM producto WHERE idComprador = ?', [id]);
+        return rows;
+    }
+
+    static async getByidTipoProducto(id, conexion) {
+        const [rows] = await conexion.query('SELECT * FROM producto WHERE idTipoProducto = ?', [id]);
+        return rows;
+    }
+
+    static async getBynumeroVendedor(id, conexion) {
+        const [rows] = await conexion.query('SELECT * FROM producto WHERE numeroVendedor = ?', [id]);
+        return rows;
+    }
 }
 
 module.exports = ProductoGateWay;

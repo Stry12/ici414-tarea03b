@@ -10,6 +10,25 @@ Content-Type: application/json
 }
 
 ###
+GET http://localhost:4000/producto/getAll
+Content-Type: application/json
+
+###
+
+GET http://localhost:4000/producto/getById/0/4/4
+
+###
+GET http://localhost:4000/producto/getByidComprador/4
+Content-Type: application/json
+
+###
+GET http://localhost:4000/producto/getByIdVendedor/0
+
+###
+GET http://localhost:4000/producto/getByidTipoProducto/4
+
+
+###
 PUT http://localhost:4000/producto/updatePrecioCompra
 Content-Type: application/json
 

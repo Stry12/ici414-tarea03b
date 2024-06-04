@@ -46,6 +46,96 @@ class ProductoService {
         }
     }
 
+    static async getAll() {
+        const conexion = await pool.getConnection();
+        try {
+            const result = await ProductoGateWay.getAll(conexion);
+            return result;
+        } catch (error) {
+            return false;
+        }
+        finally {
+            conexion.release();
+        }
+    }
+
+    static async getById(idV,idC,idT) {
+        const conexion = await pool.getConnection();
+        try {
+
+            const exist = await ProductoGateWay.exist(idV,idC,idT, conexion);
+            if (!exist) {
+                return false;
+            }
+
+            const result = await ProductoGateWay.getById(idV,idC,idT, conexion);
+            return result;
+        } catch (error) {
+            return false;
+        }
+        finally {
+            conexion.release();
+        }
+    }
+
+    static async getByidComprador(id) {
+        const conexion = await pool.getConnection();
+        try {
+            const exist = await CompradorGateWay.exist(id, conexion);
+
+            if (!exist) {
+                return false;
+            }
+
+            const result = await ProductoGateWay.getByidComprador(id, conexion);
+            return result;
+        } catch (error) {
+            return false;
+        }
+        finally {
+            conexion.release();
+        }
+    }
+
+    static async getByidTipoProducto(id) {
+
+        const conexion = await pool.getConnection();
+        try {
+            const exist = await TipoProductoGateWay.exist(id, conexion);
+
+            if (!exist) {
+                return false;
+            }
+
+            const result = await ProductoGateWay.getByidTipoProducto(id, conexion);
+            return result;
+        } catch (error) {
+            return false;
+        }
+        finally {
+            conexion.release();
+        }
+    }
+
+    static async getBynumeroVendedor(id) {
+        const conexion = await pool.getConnection();
+        try {
+            const exist = await VendedorGateWay.exist(id, conexion);
+
+            if (!exist) {
+                return false;
+            }
+
+            const result = await ProductoGateWay.getBynumeroVendedor(id, conexion);
+            return result;
+        } catch (error) {
+            return false;
+        }
+        finally {
+            conexion.release();
+        }
+    }
+
     static async updatePrecioCompra(idV,idC,idT, precio) {
         const conexion = await pool.getConnection();
         try {
