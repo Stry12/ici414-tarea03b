@@ -10,7 +10,7 @@ class CompradorController {
                 return res.status(404).send('Compradores not found');
             }
 
-            res.status(200).json(compradores);
+            res.status(200).render('compradores/index', { compradores });
         } catch (error) {
             console.error(error);
             res.status(500).send('Internal server error');

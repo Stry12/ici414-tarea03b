@@ -1,5 +1,6 @@
 const express = require('express');
 const values = require('./src/constantes/const.js');
+const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const conexionDB = require('./src/ConexionDB/conexion.js');
 
@@ -10,6 +11,10 @@ const App = express();
 // Configuración
 App.set('env', process.env.NODE_ENV || 'development');
 App.set('port', process.env.PORT || values.PORT || 8080);
+App.set('views', __dirname + '/src/views');
+App.set('view engine', 'ejs');
+App.use(bodyParser.urlencoded({ extended: true }));
+App.use(bodyParser.json());
 
 // Middleware
 App.use(express.json({ limit: '500MB' }));
