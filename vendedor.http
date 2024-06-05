@@ -32,4 +32,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:4000/vendedor/delete/3
+DELETE http://localhost:4000/vendedor/delete/1

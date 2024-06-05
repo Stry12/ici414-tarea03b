@@ -133,10 +133,15 @@ class VendedorService {
             await conexion.beginTransaction();
 
             const existV = await VendedorGateWay.exist(id,conexion);
+            const existP = await ProductoGateWay.existBynumeroVendedor(id,conexion);
 
             if (!existV) {
                 await conexion.rollback();
                 return false;
+            }
+
+            if (existP) {
+                await ProductoGateWay.deleteBynumeroVendedor(id,conexion);
             }
 
             await VendedorGateWay.delete(id,conexion);
