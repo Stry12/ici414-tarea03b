@@ -124,10 +124,15 @@ class TipoProductoService {
             await conexion.beginTransaction();
 
             const existTP = await TipoProductoGateWay.exist(id, conexion);
+            const existP = await ProductoGateWay.existByidTipoProducto(id, conexion);
 
             if (!existTP) {
                 await conexion.rollback();
                 return false;
+            }
+
+            if (existP) {
+                await ProductoGateWay.deleteByidTipoProducto(id, conexion);
             }
 
             await TipoProductoGateWay.delete(id, conexion);
