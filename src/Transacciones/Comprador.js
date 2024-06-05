@@ -109,10 +109,15 @@ class CompradorService {
           await conexion.beginTransaction();
 
           const existV = await CompradorGateWay.exist(id,conexion);
+          const existP = await ProductoGateWay.existByidComprador(id,conexion);
 
           if (!existV) {
               await conexion.rollback();
               return false;
+          }
+
+          if (existP) {
+                await ProductoGateWay.deleteByidComprador(id,conexion);
           }
 
           await CompradorGateWay.delete(id,conexion);
