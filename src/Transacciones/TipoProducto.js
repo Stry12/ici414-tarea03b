@@ -91,7 +91,7 @@ class TipoProductoService {
         const conexion = await pool.getConnection();
         try{
             await conexion.beginTransaction();
-
+        
             const existTP = await TipoProductoGateWay.exist(id, conexion);
             const existN = await TipoProductoGateWay.exist(nuevoID, conexion);
             const existP = await ProductoGateWay.existByidTipoProducto(id, conexion);
@@ -106,11 +106,14 @@ class TipoProductoService {
                 return false;
             }
 
+            const data = await TipoProductoGateWay.getById(id, conexion);
+            await TipoProductoGateWay.create(nuevoID,data[0].descripcionProducto, conexion);
+
             if (existP) {
                 await ProductoGateWay.updateIdTipoProducto(id, nuevoID, conexion);
             }
 
-            await TipoProductoGateWay.updateID(id, nuevoID, conexion);
+            await TipoProductoGateWay.delete(id, conexion);
 
             await conexion.commit();
             return true;

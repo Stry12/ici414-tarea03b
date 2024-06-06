@@ -99,7 +99,7 @@ class VendedorService {
 
     static async updateID(id,nuevoID){
         const conexion = await pool.getConnection();
-        try{
+        try {
             await conexion.beginTransaction();
 
             const existV = await VendedorGateWay.exist(id,conexion);
@@ -115,19 +115,23 @@ class VendedorService {
                 return false;
             }
 
+            const data = await VendedorGateWay.getById(id,conexion);
+            await VendedorGateWay.create(nuevoID,data[0].nombreVendedor,conexion);
+            
+
             if (existP) {
-                await ProductoGateWay.updateID(id,nuevoID,conexion);
+                await ProductoGateWay.updateIdVendedor(id,nuevoID,conexion);
             }
 
-            await VendedorGateWay.updateID(id,nuevoID,conexion);
+
+            await VendedorGateWay.delete(id,conexion);
 
             await conexion.commit();
             return true;
         } catch (error) {
             await conexion.rollback();
             return false;
-        }
-        finally {
+        } finally {
             conexion.release();
         }
     }

@@ -92,7 +92,7 @@ class CompradorService {
           }
 
           if (existP) {
-            await ProductoGateWay.updateIDComprador(id,nuevoID,conexion);
+            await ProductoGateWay.updateIdComprador(id,nuevoID,conexion);
           }
 
           await CompradorGateWay.updateID(id,nuevoID,conexion);
