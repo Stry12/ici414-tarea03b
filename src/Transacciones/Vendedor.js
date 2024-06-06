@@ -104,6 +104,7 @@ class VendedorService {
 
             const existV = await VendedorGateWay.exist(id,conexion);
             const existN = await VendedorGateWay.exist(nuevoID,conexion);
+            const existP = await ProductoGateWay.existBynumeroVendedor(id,conexion);
 
             if (existN) {
                 await conexion.rollback();
@@ -112,6 +113,10 @@ class VendedorService {
             if (!existV) {
                 await conexion.rollback();
                 return false;
+            }
+
+            if (existP) {
+                await ProductoGateWay.updateID(id,nuevoID,conexion);
             }
 
             await VendedorGateWay.updateID(id,nuevoID,conexion);
@@ -143,6 +148,8 @@ class VendedorService {
             if (existP) {
                 await ProductoGateWay.deleteBynumeroVendedor(id,conexion);
             }
+
+
 
             await VendedorGateWay.delete(id,conexion);
 

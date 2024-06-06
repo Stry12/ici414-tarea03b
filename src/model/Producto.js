@@ -69,6 +69,18 @@ class ProductoGateWay {
         const [rows] = await conexion.query('SELECT * FROM producto WHERE numeroVendedor = ?', [id]);
         return rows;
     }
+
+    static async updateIdComprador(id, nuevo, conexion) {
+        await conexion.query('UPDATE producto SET idComprador = ? WHERE idComprador', [nuevo,id]);
+    }
+
+    static async updateIdTipoProducto(id, nuevo, conexion) {
+        await conexion.query('UPDATE producto SET idTipoProducto = ? WHERE idTipoProducto', [nuevo,id]);
+    }
+
+    static async updateIdVendedor(id, nuevo, conexion) {
+        await conexion.query('UPDATE producto SET numeroVendedor = ? WHERE numeroVendedor', [nuevo,id]);
+    }
 }
 
 module.exports = ProductoGateWay;

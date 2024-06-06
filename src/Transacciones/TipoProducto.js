@@ -94,6 +94,7 @@ class TipoProductoService {
 
             const existTP = await TipoProductoGateWay.exist(id, conexion);
             const existN = await TipoProductoGateWay.exist(nuevoID, conexion);
+            const existP = await ProductoGateWay.existByidTipoProducto(id, conexion);
 
             if (!existTP) {
                 await conexion.rollback();
@@ -103,6 +104,10 @@ class TipoProductoService {
             if (existN) {
                 await conexion.rollback();
                 return false;
+            }
+
+            if (existP) {
+                await ProductoGateWay.updateIdTipoProducto(id, nuevoID, conexion);
             }
 
             await TipoProductoGateWay.updateID(id, nuevoID, conexion);

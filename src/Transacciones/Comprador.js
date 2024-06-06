@@ -80,6 +80,7 @@ class CompradorService {
 
           const existV = await CompradorGateWay.exist(id,conexion);
           const existN = await CompradorGateWay.exist(nuevoID,conexion);
+          const existP = await ProductoGateWay.existByidComprador(id,conexion);
 
           if (existN) {
               await conexion.rollback();
@@ -88,6 +89,10 @@ class CompradorService {
           if (!existV) {
               await conexion.rollback();
               return false;
+          }
+
+          if (existP) {
+            await ProductoGateWay.updateIDComprador(id,nuevoID,conexion);
           }
 
           await CompradorGateWay.updateID(id,nuevoID,conexion);
