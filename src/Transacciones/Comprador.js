@@ -91,21 +91,25 @@ class CompradorService {
               return false;
           }
 
+          const data = await CompradorGateWay.getById(id,conexion);
+          await CompradorGateWay.create(nuevoID,data[0].nombreComprador,conexion);
+
+          
+
           if (existP) {
             await ProductoGateWay.updateIdComprador(id,nuevoID,conexion);
           }
 
-          await CompradorGateWay.updateID(id,nuevoID,conexion);
+          await ProductoGateWay.deleteByidComprador(id,conexion);
 
           await conexion.commit();
           return true;
       } catch (error) {
-          await conexion.rollback();
-          return false;
-      }
-      finally {
-          conexion.release();
-      }
+            await conexion.rollback();
+            return false;
+        } finally {
+            conexion.release();
+        }
   }
 
   static async delete(id) {
