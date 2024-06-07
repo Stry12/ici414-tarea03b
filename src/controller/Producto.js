@@ -17,9 +17,9 @@ class ProductoController {
     }
 
     static async getAll(req, res) {
-        const response = await ProductoService.getAll();
-        if (response) {
-            res.status(200).json(response);
+        const productos = await ProductoService.getAll();
+        if (productos) {
+            res.status(200).render('productos/Producto', { productos });
         } else {
             res.status(400).json({ message: 'No hay productos' });
         }

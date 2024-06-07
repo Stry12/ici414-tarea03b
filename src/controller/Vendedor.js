@@ -4,7 +4,6 @@ class VendedorController {
 
     static async crearVendedor(req, res) {
     try {
-        console.log(req.body); // Imprime los datos que se envían desde el formulario
 
         const { id, nombre } = req.body;
         const result = await VendedorService.crearVendedor(id, nombre);

@@ -1,26 +1,25 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Vendedores</title>
+    <title>Lista de Productos</title>
 </head>
 <body>
-    <h1>Lista de Vendedores</h1>
+    <h1>Lista de Productos</h1>
     <table border="1">
         <thead>
             <tr>
-                <th>ID Vendedor</th>
-                <th>Nombre Vendedor</th>
+                <th>Tipo De Producto</th>
+                <th>Descripcion</th>
             </tr>
         </thead>
         <tbody>
-            <% vendedores.forEach(vendedor => { %>
+            <% tipoproducto.forEach(tipoproducto => { %>
                 <tr>
-                    <td><%= vendedor.numeroVendedor %></td>
-                    <td><%= vendedor.nombreVendedor %></td>
-                    <td><button onclick="eliminar(<%= vendedor.numeroVendedor %>)">Eliminar</button></td>
+                    <td><%= tipoproducto.idTipoProducto %></td>
+                    <td><%= tipoproducto.descripcionProducto %></td>
+                    <td><button onclick="eliminar(<%= tipoproducto.idtipoproducto %>)">Eliminar</button></td>
             <% }) %>
         </tbody>
     </table>
@@ -29,23 +28,23 @@
         function eliminar(id) {
             const x = confirm('¿Estás seguro de que deseas eliminar al comprador con ID: ' + id + '?');
             if (x) {
-                fetch(`http://localhost:4000/vendedor/delete/${id}`, {
+                fetch(`http://localhost:4000/TipoProducto/delete/${id}`, {
                     method: 'DELETE'
                 })
                 .then(response => {
                     if (response.ok) {
                         return response.json();
                     } else {
-                        throw new Error('Error al eliminar el comprador.');
+                        throw new Error('Error al eliminar el Producto.');
                     }
                 })
                 .then(data => {
                     if (data.success) {
                         const row = document.querySelector(`button[onclick="eliminar(${id})"]`).parentNode.parentNode;
                         row.parentNode.removeChild(row);
-                        alert('Comprador eliminado.');
+                        alert('Producto eliminado.');
                     } else {
-                        alert('Error al eliminar un vendedor.');
+                        alert('Error al eliminar un Producto.');
                     }
                     location.reload(); // Recarga la página después de que se haya completado la operación de eliminación
                 })
@@ -58,7 +57,7 @@
     </script>
 
 
-<h1>Vendedor</h1>
+<h1>Actualizar Producto</h1>
 
     
         
@@ -66,7 +65,7 @@
 <form id="updateForm">
     <label for="id">ID:</label>
     <input type="text" id="id" name="id" required>
-    <label for="nombre">Nuevo Nombre:</label>
+    <label for="nombre">Nueva Descripcion:</label>
     <input type="text" id="nombre" name="nombre" required>
     <input type="submit" value="Actualizar">
 </form>
@@ -80,7 +79,7 @@
     
         var data = { "nombre": nombre };
         console.log(JSON.stringify(data)); // Imprime el JSON que se envía
-        fetch('/vendedor/updateNombre/' + id, {
+        fetch('/TipoProducto/updateDescripcion/' + id, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -90,22 +89,22 @@
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            alert('Vendedor actualizado con éxito.');
+            alert('Producto actualizado con éxito.');
             location.reload();
         })
         .catch((error) => {
           console.error('Error:', error);
-          alert('Vendedor actualizado con éxito.');
+          alert('Producto actualizado con éxito.');
           location.reload();
         });
     });
     </script>
 
-<h1>Crear Vendedor</h1>
+<h1>Crear Producto</h1>
 <form id="createForm">
     <label for="createId">ID:</label><br>
     <input type="number" id="createId" name="id" required><br>
-    <label for="createNombre">Nombre:</label><br>
+    <label for="createNombre">Descripcion:</label><br>
     <input type="text" id="createNombre" name="nombre" required><br>
     <input type="submit" value="Crear Vendedor">
 </form>
@@ -120,7 +119,7 @@
         var data = { "id": id, "nombre": nombre };
         console.log("Datos a enviar: ", JSON.stringify(data)); // Imprime el JSON que se envía
     
-        fetch('/vendedor/create', {
+        fetch('/TipoProducto/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -130,12 +129,12 @@
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            alert('Vendedor creado con éxito.');
+            alert('Producto creado con éxito.');
             location.reload();
         })
         .catch((error) => {
           console.error('Error:', error);
-          alert('Vendedor creado con éxito.');
+          alert('Producto creado con éxito.');
           location.reload();
         });
     });
