@@ -20,47 +20,46 @@
         <tbody>
             <% productos.forEach(producto => { %>
                 <tr>
-                    <td><%= producto.numeroVendedor %></td>
-                    <td><%= producto.idComprador %></td>
-                    <td><%= producto.idTipoProducto %></td>
+                    <td class="idV"><%= producto.numeroVendedor %></td>
+                    <td class="idC"><%= producto.idComprador %></td>
+                    <td class="idT"><%= producto.idTipoProducto %></td>
                     <td><%= producto.precioCompra %></td>
-                    <td><button onclick="eliminar(<%= producto.idTipoProducto %>)">Eliminar</button></td>
+                    <td><button onclick="eliminar(this)">Eliminar</button></td>
                 </tr>
             <% }) %>
         </tbody>
     </table>
 
     <script>
-        function eliminar(id) {
-            const x = confirm('¿Estás seguro de que deseas eliminar al comprador con ID: ' + id + '?');
-            if (x) {
-                fetch(`http://localhost:4000/TipoProducto/delete/${id}`, {
-                    method: 'DELETE'
-                })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Error al eliminar el Producto.');
-                    }
-                })
-                .then(data => {
-                    if (data.success) {
-                        const row = document.querySelector(`button[onclick="eliminar(${id})"]`).parentNode.parentNode;
-                        row.parentNode.removeChild(row);
-                        alert('Producto eliminado.');
-                    } else {
-                        alert('Error al eliminar un Producto.');
-                    }
-                    location.reload(); // Recarga la página después de que se haya completado la operación de eliminación
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    location.reload(); // Recarga la página si ocurre un error
-                });
-            }
+        function eliminar(btn) {
+            var row = btn.parentNode.parentNode;
+            var idV = row.getElementsByClassName('idV')[0].innerText;
+            var idC = row.getElementsByClassName('idC')[0].innerText;
+            var idT = row.getElementsByClassName('idT')[0].innerText;
+
+            var data = { "idV": parseInt(idV), "idC": parseInt(idC), "idT": parseInt(idT) };
+
+            fetch('/producto/deleteByComination', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                alert('Producto eliminado con éxito.');
+                location.reload();
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+              alert('Error al eliminar el producto.');
+              location.reload();
+            });
         }
     </script>
+
 
 <h1>Modificar Precio Producto</h1>
 
@@ -107,16 +106,18 @@ document.getElementById('updateForm').addEventListener('submit', function(event)
     });
 });
 </script>
+
+
 <h1>Crear Producto</h1>
 <form id="createForm">
     <label for="idvendedor">ID del Vendedor:</label>
-    <input type="number" id="idvendedor" name="idvendedor" required>
+    <input type="number" id="idvendedor1" name="idvendedor1" required>
     <label for="idcomprador">ID del Comprador:</label>
-    <input type="number" id="idcomprador" name="idcomprador" required>
+    <input type="number" id="idcomprador1" name="idcomprador1" required>
     <label for="idproducto">ID del Producto:</label>
-    <input type="number" id="idproducto" name="idproducto" required>
+    <input type="number" id="idproducto1" name="idproducto1" required>
     <label for="precio">Precio de Compra:</label>
-    <input type="number" id="precio" name="precio" required>
+    <input type="number" id="precio1" name="precio1" required>
     <input type="submit" value="Crear"> 
 </form>
 
@@ -124,11 +125,11 @@ document.getElementById('updateForm').addEventListener('submit', function(event)
     document.getElementById('createForm').addEventListener('submit', function(event) {
         event.preventDefault();
 
-        var idV = document.getElementById('idvendedor').value;
-        var idC = document.getElementById('idcomprador').value;
-        var idT = document.getElementById('idproducto').value;
-        var precio = document.getElementById('precio').value;
-        var data = { idV: idV, idC: idC, idT: idT, precio: precio };
+        var idV = document.getElementById('idvendedor1').value;
+        var idC = document.getElementById('idcomprador1').value;
+        var idT = document.getElementById('idproducto1').value;
+        var precio = document.getElementById('precio1').value;
+        var data = { "idV": idV, "idC": idC, "idT": idT, "precio": precio };
         console.log(JSON.stringify(data)); 
 
         fetch('http://localhost:4000/producto/create', {
@@ -141,7 +142,11 @@ document.getElementById('updateForm').addEventListener('submit', function(event)
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            alert('Producto creado con éxito.');
+            if (data.message === 'Producto creado') {
+                alert('Producto creado con éxito.');
+            } else {
+                alert('Error al crear el producto o ya existe.');
+            }
             location.reload();
         })
         .catch((error) => {
