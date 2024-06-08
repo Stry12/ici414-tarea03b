@@ -19,11 +19,11 @@ class TipoProductoController {
 
     static async getAll(req, res) {
         try {
-            const tipoproducto = await TipoProductoService.getAll();
-            if (!tipoproducto) {
+            const tipoproductos = await TipoProductoService.getAll();
+            if (!tipoproductos) {
                 res.status(400).send('No hay tipos de productos');
             } else {
-                res.status(200).render('productos/tipoproducto', { tipoproducto });
+                res.status(200).render('tipoproductos/tipoproducto', { tipoproductos });
             }
         }
         catch (error) {
