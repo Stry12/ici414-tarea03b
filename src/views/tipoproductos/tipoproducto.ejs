@@ -3,23 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Productos</title>
+    <title>Lista de Tipos Productos</title>
 </head>
 <body>
-    <h1>Lista de Productos</h1>
+    <h1>Lista de Tipos de Productos</h1>
     <table border="1">
         <thead>
             <tr>
-                <th>Tipo De Producto</th>
+                <th>Id</th>
                 <th>Descripcion</th>
             </tr>
         </thead>
         <tbody>
-            <% tipoproducto.forEach(tipoproducto => { %>
+            <% tipoproductos.forEach(tipoproducto => { %>
                 <tr>
                     <td><%= tipoproducto.idTipoProducto %></td>
                     <td><%= tipoproducto.descripcionProducto %></td>
-                    <td><button onclick="eliminar(<%= tipoproducto.idtipoproducto %>)">Eliminar</button></td>
+                    <td><button onclick="eliminar(<%= tipoproducto.idTipoProducto %>)">Eliminar</button></td>
             <% }) %>
         </tbody>
     </table>
@@ -28,7 +28,7 @@
         function eliminar(id) {
             const x = confirm('¿Estás seguro de que deseas eliminar al comprador con ID: ' + id + '?');
             if (x) {
-                fetch(`http://localhost:4000/TipoProducto/delete/${id}`, {
+                fetch(`http://localhost:4000/tipoProducto/delete/${id}`, {
                     method: 'DELETE'
                 })
                 .then(response => {
@@ -57,7 +57,7 @@
     </script>
 
 
-<h1>Actualizar Producto</h1>
+<h1>Actualizar Tipo de Producto</h1>
 
     
         
@@ -65,8 +65,8 @@
 <form id="updateForm">
     <label for="id">ID:</label>
     <input type="text" id="id" name="id" required>
-    <label for="nombre">Nueva Descripcion:</label>
-    <input type="text" id="nombre" name="nombre" required>
+    <label for="descripcionProducto">Nueva Descripcion:</label>
+    <input type="text" id="descripcionProducto" name="descripcionProducto" required>
     <input type="submit" value="Actualizar">
 </form>
 
@@ -75,11 +75,11 @@
         event.preventDefault();
     
         var id = document.getElementById('id').value;
-        var nombre = document.getElementById('nombre').value;
+        var descripcionProducto = document.getElementById('descripcionProducto').value;
     
-        var data = { "nombre": nombre };
+        var data = { "descripcion": descripcionProducto };
         console.log(JSON.stringify(data)); // Imprime el JSON que se envía
-        fetch('/TipoProducto/updateDescripcion/' + id, {
+        fetch('/tipoProducto/updateDescripcion/' + id, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -100,13 +100,13 @@
     });
     </script>
 
-<h1>Crear Producto</h1>
+<h1>Crear Tipo de Producto</h1>
 <form id="createForm">
     <label for="createId">ID:</label><br>
     <input type="number" id="createId" name="id" required><br>
-    <label for="createNombre">Descripcion:</label><br>
-    <input type="text" id="createNombre" name="nombre" required><br>
-    <input type="submit" value="Crear Vendedor">
+    <label for="createdescripcionProducto">Descripcion:</label><br>
+    <input type="text" id="createdescripcionProducto" name="descripcionProducto" required><br>
+    <input type="submit" value="Crear TipoProducto">
 </form>
 
 <script>
@@ -114,12 +114,12 @@
         event.preventDefault();
     
         var id = parseInt(document.getElementById('createId').value);
-        var nombre = document.getElementById('createNombre').value;
+        var descripcionProducto = document.getElementById('createdescripcionProducto').value;
     
-        var data = { "id": id, "nombre": nombre };
+        var data = { "id": id, "descripcion": descripcionProducto };
         console.log("Datos a enviar: ", JSON.stringify(data)); // Imprime el JSON que se envía
     
-        fetch('/TipoProducto/create', {
+        fetch('/tipoProducto/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -134,7 +134,7 @@
         })
         .catch((error) => {
           console.error('Error:', error);
-          alert('Producto creado con éxito.');
+          alert('Error.');
           location.reload();
         });
     });
