@@ -62,34 +62,76 @@
         }
     </script>
 
+<h1>Modificar Precio Producto</h1>
 
-<h1>Crear Producto</h1>
 <form id="updateForm">
-    <label for="id">ID del Vendedor	:</label>
-    <input type="text" id="idvendedor" name="ID del Vendedor" required>
-    <label for="nombre">ID del Comprador:</label>
-    <input type="text" id="idcomprador" name="ID del Comprador" required>
-    <label for="nombre">ID del Producto:</label>
-    <input type="text" id="Idproducto" name="ID del Producto" required>
-    <label for="nombre">Precio de Compra:</label>
-    <input type="text" id="precio" name="Precio" required>
-    <input type="submit" value="Crear"> 
+    <label for="idV">ID Vendedor:</label>
+    <input type="text" id="idV" name="idV" required>
+    <label for="idC">ID Comprador:</label>
+    <input type="text" id="idC" name="idC" required>
+    <label for="idT">ID Tipo Producto:</label>
+    <input type="text" id="idT" name="idT" required>
+    <label for="precio">Nuevo Precio:</label>
+    <input type="text" id="precio" name="precio" required>
+    <input type="submit" value="Actualizar">
 </form>
 
+<script>
+document.getElementById('updateForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var idV = document.getElementById('idV').value;
+    var idC = document.getElementById('idC').value;
+    var idT = document.getElementById('idT').value;
+    var precio = document.getElementById('precio').value;
+
+    var data = { "idV": idV, "idC": idC, "idT": idT, "precio": precio };
+    console.log(JSON.stringify(data)); 
+    fetch('/producto/updatePrecioCompra', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        alert('Precio del producto actualizado con éxito.');
+        location.reload();
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      alert('Error al actualizar el precio del producto.');
+      location.reload();
+    });
+});
+</script>
+<h1>Crear Producto</h1>
+<form id="createForm">
+    <label for="idvendedor">ID del Vendedor:</label>
+    <input type="number" id="idvendedor" name="idvendedor" required>
+    <label for="idcomprador">ID del Comprador:</label>
+    <input type="number" id="idcomprador" name="idcomprador" required>
+    <label for="idproducto">ID del Producto:</label>
+    <input type="number" id="idproducto" name="idproducto" required>
+    <label for="precio">Precio de Compra:</label>
+    <input type="number" id="precio" name="precio" required>
+    <input type="submit" value="Crear"> 
+</form>
 
 <script>
     document.getElementById('createForm').addEventListener('submit', function(event) {
         event.preventDefault();
-    
-        var id = document.getElementById('idvendedor').value;
-        var id_comprador = document.getElementById('idcomprador').value;
-        var id_produc = document.getElementById('Idproducto').value;
+
+        var idV = document.getElementById('idvendedor').value;
+        var idC = document.getElementById('idcomprador').value;
+        var idT = document.getElementById('idproducto').value;
         var precio = document.getElementById('precio').value;
-        //numeroVendedor,idComprador,idTipoProducto,precioCompra
-        var data = { "numeroVendedor": id, "idComprador":id_comprador, "idTipoProducto":id_produc, "precioCompra":precio };
+        var data = { idV: idV, idC: idC, idT: idT, precio: precio };
         console.log(JSON.stringify(data)); 
-    
-        fetch('/producto/create' + id + id_comprador + id_produc + precio ,{
+
+        fetch('http://localhost:4000/producto/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -104,10 +146,9 @@
         })
         .catch((error) => {
           console.error('Error:', error);
-          alert('Producto creado con éxito.');
-          location.reload();
+          alert('Error al crear el producto.');
         });
     });
-    </script>
+</script>
 </body>
 </html>
