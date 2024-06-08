@@ -17,11 +17,9 @@ class ProductoService {
 
             const existT = await TipoProductoGateWay.exist(idT, conexion);
 
-            const existP = await ProductoGateWay.exist(idV,idC,idT, conexion);
-
             const verificar_precio = await this.verificar_precio(precio);
 
-            if (!existV || !existC || !existT || existP) {
+            if (!existV || !existC || !existT) {
                 await conexion.rollback();
                 return false;
             }

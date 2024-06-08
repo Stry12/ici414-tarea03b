@@ -3,9 +3,9 @@ POST http://localhost:4000/producto/create
 Content-Type: application/json
 
 {
-    "idV": 0,
-    "idC": 4,
-    "idT": 4,
+    "idV": 3,
+    "idC": 3,
+    "idT": 3,
     "precio": 400
 }
 

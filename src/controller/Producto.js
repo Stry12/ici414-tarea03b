@@ -2,7 +2,12 @@ const ProductoService = require('../Transacciones/Producto');
 
 class ProductoController {
     static async create(req, res) {
-        const { idV ,idC ,idT , precio } = req.body;
+
+        console.log(req.body);
+
+        const { idV = null ,idC = null,idT = null, precio = null } = req.body;
+
+        console.log(idV,idC,idT,precio);
   
         if (idV != null && idC != null && idT != null && precio != null ) {
             const response = await ProductoService.create(idV,idC,idT, precio);
