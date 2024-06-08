@@ -20,48 +20,45 @@
         <tbody>
             <% productos.forEach(producto => { %>
                 <tr>
-                    <td><%= producto.numeroVendedor %></td>
-                    <td><%= producto.idComprador %></td>
-                    <td><%= producto.idTipoProducto %></td>
+                    <td class="idV"><%= producto.numeroVendedor %></td>
+                    <td class="idC"><%= producto.idComprador %></td>
+                    <td class="idT"><%= producto.idTipoProducto %></td>
                     <td><%= producto.precioCompra %></td>
-                    <td><button onclick="eliminar(<%= producto.idTipoProducto %>)">Eliminar</button></td>
+                    <td><button onclick="eliminar(this)">Eliminar</button></td>
                 </tr>
             <% }) %>
         </tbody>
     </table>
-
+    
     <script>
-        function eliminar(id) {
-            const x = confirm('¿Estás seguro de que deseas eliminar al comprador con ID: ' + id + '?');
-            if (x) {
-                fetch(`http://localhost:4000/TipoProducto/delete/${id}`, {
-                    method: 'DELETE'
-                })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw new Error('Error al eliminar el Producto.');
-                    }
-                })
-                .then(data => {
-                    if (data.success) {
-                        const row = document.querySelector(`button[onclick="eliminar(${id})"]`).parentNode.parentNode;
-                        row.parentNode.removeChild(row);
-                        alert('Producto eliminado.');
-                    } else {
-                        alert('Error al eliminar un Producto.');
-                    }
-                    location.reload(); // Recarga la página después de que se haya completado la operación de eliminación
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    location.reload(); // Recarga la página si ocurre un error
-                });
-            }
+        function eliminar(btn) {
+            var row = btn.parentNode.parentNode;
+            var idV = row.getElementsByClassName('idV')[0].innerText;
+            var idC = row.getElementsByClassName('idC')[0].innerText;
+            var idT = row.getElementsByClassName('idT')[0].innerText;
+    
+            var data = { "idV": parseInt(idV), "idC": parseInt(idC), "idT": parseInt(idT) };
+    
+            fetch('/producto/deleteByComination', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                alert('Producto eliminado con éxito.');
+                location.reload();
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+              alert('Error al eliminar el producto.');
+              location.reload();
+            });
         }
     </script>
-
 <h1>Modificar Precio Producto</h1>
 
 <form id="updateForm">
