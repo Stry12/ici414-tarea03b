@@ -20,9 +20,123 @@
                 <tr>
                     <td><%= comprador.idComprador %></td>
                     <td><%= comprador.nombreComprador %></td>
-                </tr>
+                    <td><button onclick="eliminar(<%= comprador.idComprador %>)">Eliminar</button></td>
             <% }) %>
         </tbody>
     </table>
+    <script>
+        function eliminar(id) {
+            const x = confirm('¿Estás seguro de que deseas eliminar al comprador con ID: ' + id + '?');
+            if (x) {
+                fetch(`http://localhost:4000/comprador/delete/${id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Error al eliminar el comprador.');
+                    }
+                })
+                .then(data => {
+                    if (data.success) {
+                        const row = document.querySelector(`button[onclick="eliminar(${id})"]`).parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+                        alert('Comprador eliminado.');
+                    } else {
+                        alert('Error al eliminar un comprador 2.');
+                    }
+                    location.reload(); 
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    location.reload();
+                });
+            }
+        }
+    </script>
+
+<h1>Actualizar comprador</h1>
+
+    
+        
+   
+<form id="updateForm">
+    <label for="id">ID:</label>
+    <input type="text" id="id" name="id" required>
+    <label for="nombre">Nuevo Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required>
+    <input type="submit" value="Actualizar">
+</form>
+
+<script>
+    document.getElementById('updateForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+    
+        var id = document.getElementById('id').value;
+        var nombre = document.getElementById('nombre').value;
+    
+        var data = { "nombre": nombre };
+        console.log(JSON.stringify(data)); 
+        fetch('/comprador/updateNombre/' + id, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            alert('comprador actualizado con éxito.');
+            location.reload();
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          alert('comprador actualizado con éxito.');
+          location.reload();
+        });
+    });
+    </script>
+
+<h1>Crear comprador</h1>
+<form id="createForm">
+    <label for="createId">ID:</label><br>
+    <input type="number" id="createId" name="id" required><br>
+    <label for="createNombre">Nombre:</label><br>
+    <input type="text" id="createNombre" name="nombre" required><br>
+    <input type="submit" value="Crear Vendedor">
+</form>
+
+<script>
+    document.getElementById('createForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+    
+        var id = parseInt(document.getElementById('createId').value);
+        var nombre = document.getElementById('createNombre').value;
+    
+        var data = { "id": id, "nombre": nombre };
+        console.log("Datos a enviar: ", JSON.stringify(data));
+    
+        fetch('/comprador/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            alert('Vendedor creado con éxito.');
+            location.reload();
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          alert('No se a podido crear.');
+          location.reload();
+        });
+    });
+    </script>
 </body>
 </html>

@@ -63,69 +63,33 @@
     </script>
 
 
-<h1>Actualizar Producto</h1>
-
-    
-        
-   
-<form id="updateForm">
-    <label for="id">ID:</label>
-    <input type="text" id="id" name="id" required>
-    <label for="nombre">Nueva Descripcion:</label>
-    <input type="text" id="nombre" name="nombre" required>
-    <input type="submit" value="Actualizar">
-</form>
-
-<script>
-    document.getElementById('updateForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-    
-        var id = document.getElementById('id').value;
-        var nombre = document.getElementById('nombre').value;
-    
-        var data = { "nombre": nombre };
-        console.log(JSON.stringify(data)); // Imprime el JSON que se envía
-        fetch('/TipoProducto/updateDescripcion/' + id, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            alert('Producto actualizado con éxito.');
-            location.reload();
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-          alert('Producto actualizado con éxito.');
-          location.reload();
-        });
-    });
-    </script>
-
 <h1>Crear Producto</h1>
-<form id="createForm">
-    <label for="createId">ID:</label><br>
-    <input type="number" id="createId" name="id" required><br>
-    <label for="createNombre">Descripcion:</label><br>
-    <input type="text" id="createNombre" name="nombre" required><br>
-    <input type="submit" value="Crear Vendedor">
+<form id="updateForm">
+    <label for="id">ID del Vendedor	:</label>
+    <input type="text" id="idvendedor" name="ID del Vendedor" required>
+    <label for="nombre">ID del Comprador:</label>
+    <input type="text" id="idcomprador" name="ID del Comprador" required>
+    <label for="nombre">ID del Producto:</label>
+    <input type="text" id="Idproducto" name="ID del Producto" required>
+    <label for="nombre">Precio de Compra:</label>
+    <input type="text" id="precio" name="Precio" required>
+    <input type="submit" value="Crear"> 
 </form>
+
 
 <script>
     document.getElementById('createForm').addEventListener('submit', function(event) {
         event.preventDefault();
     
-        var id = parseInt(document.getElementById('createId').value);
-        var nombre = document.getElementById('createNombre').value;
+        var id = document.getElementById('idvendedor').value;
+        var id_comprador = document.getElementById('idcomprador').value;
+        var id_produc = document.getElementById('Idproducto').value;
+        var precio = document.getElementById('precio').value;
+        //numeroVendedor,idComprador,idTipoProducto,precioCompra
+        var data = { "numeroVendedor": id, "idComprador":id_comprador, "idTipoProducto":id_produc, "precioCompra":precio };
+        console.log(JSON.stringify(data)); 
     
-        var data = { "id": id, "nombre": nombre };
-        console.log("Datos a enviar: ", JSON.stringify(data)); // Imprime el JSON que se envía
-    
-        fetch('/TipoProducto/create', {
+        fetch('/producto/create' + id + id_comprador + id_produc + precio ,{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
