@@ -4,7 +4,124 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Productos</title>
+    <style>
+        nav {
+            background-color: #5974a0;
+            padding: 10px 0;
+            text-align: center;
+        }
+        
+        nav a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+        
+        nav a:hover {
+            color: #809bce;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+            color: #809bce;
+            font-size: 2.5em;
+            padding: 20px;
+            border-bottom: 2px; 
+            margin-bottom: 20px; 
+        }
+
+        table {
+            margin: 0 auto;
+            width: 80%;
+            border-collapse: collapse;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #5974a0;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+
+        .crearform, .updateForm {
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            width: 80%; 
+            max-width: 500px; 
+        }
+
+        .crearform input, .updateForm input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd; 
+            border-radius: 5px;
+            width: 95%;
+        }
+
+        .crearform button, .updateForm button {
+            background-color: #5974a0; 
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .crearform button:hover, .updateForm button:hover {
+            background-color: #5974a0;
+        }
+
+        button[onclick="eliminar(this)"] {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        button[onclick="eliminar(this)"]:hover {
+            background-color: darkred;
+        }
+        
+    </style>
 </head>
+<nav>
+    <a href="/vendedor/getAll">Vendedores</a>
+    <a href="/comprador/getAll">Compradores</a>
+    <a href="/producto/getAll">Productos</a>
+    <a href="/tipoProducto/getAll">Tipos De Productos</a>
+</nav>
 <body>
     <h1>Lista de Productos</h1>
     <table border="1">
@@ -61,7 +178,7 @@
     </script>
 <h1>Modificar Precio Producto</h1>
 
-<form id="updateForm">
+<form  class="updateForm" id="updateForm">
     <label for="idV">ID Vendedor:</label>
     <input type="text" id="idV" name="idV" required>
     <label for="idC">ID Comprador:</label>
@@ -70,7 +187,7 @@
     <input type="text" id="idT" name="idT" required>
     <label for="precio">Nuevo Precio:</label>
     <input type="text" id="precio" name="precio" required>
-    <input type="submit" value="Actualizar">
+    <button type="submit">Actualizar</button>
 </form>
 
 <script>
@@ -106,8 +223,8 @@ document.getElementById('updateForm').addEventListener('submit', function(event)
 </script>
 
 
-<h1>Crear Producto</h1>
-<form id="createForm">
+<h1>Nuevo Producto</h1>
+<form  class="crearform" id="createForm">
     <label for="idvendedor">ID del Vendedor:</label>
     <input type="number" id="idvendedor1" name="idvendedor1" required>
     <label for="idcomprador">ID del Comprador:</label>
@@ -116,7 +233,7 @@ document.getElementById('updateForm').addEventListener('submit', function(event)
     <input type="number" id="idproducto1" name="idproducto1" required>
     <label for="precio">Precio de Compra:</label>
     <input type="number" id="precio1" name="precio1" required>
-    <input type="submit" value="Crear"> 
+    <button type="submit">Crear Producto</button>
 </form>
 
 <script>

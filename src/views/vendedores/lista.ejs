@@ -1,18 +1,140 @@
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
     <title>Lista de Vendedores</title>
+
+    <style>
+        nav {
+            background-color: #5974a0;
+            padding: 10px 0;
+            text-align: center;
+        }
+        
+        nav a {
+            color: #fff;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+        
+        nav a:hover {
+            color: #809bce;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+            color: #809bce;
+            font-size: 2.5em;
+            padding: 20px;
+            border-bottom: 2px; 
+            margin-bottom: 20px; 
+        }
+
+        table {
+            margin: 0 auto;
+            width: 80%;
+            border-collapse: collapse;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #5974a0;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        tr:hover {
+            background-color: #f2f2f2;
+        }
+
+        .crearform, .updateForm {
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+            width: 80%; 
+            max-width: 500px; 
+        }
+
+        .crearform input, .updateForm input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd; 
+            border-radius: 5px;
+            width: 95%;
+        }
+
+        .crearform button, .updateForm button {
+            background-color: #5974a0; 
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .crearform button:hover, .updateForm button:hover {
+            background-color: #5974a0;
+        }
+        
+        button[onclick^="eliminar"] {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        
+        button[onclick^="eliminar"]:hover {
+            background-color: darkred;
+        }
+    </style>
 </head>
+
+<nav>
+    <a href="/vendedor/getAll">Vendedores</a>
+    <a href="/comprador/getAll">Compradores</a>
+    <a href="/producto/getAll">Productos</a>
+    <a href="/tipoProducto/getAll">Tipos De Productos</a>
+</nav>
 <body>
+
     <h1>Lista de Vendedores</h1>
     <table border="1">
         <thead>
             <tr>
                 <th>ID Vendedor</th>
                 <th>Nombre Vendedor</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -58,17 +180,17 @@
     </script>
 
 
-<h1>Vendedor</h1>
+<h1>Actualizar Vendedor</h1>
 
     
         
    
-<form id="updateForm">
+<form class="updateForm" id ="updateForm">
     <label for="id">ID:</label>
     <input type="text" id="id" name="id" required>
     <label for="nombre">Nuevo Nombre:</label>
     <input type="text" id="nombre" name="nombre" required>
-    <input type="submit" value="Actualizar">
+    <button type="submit">Actualizar Vendedor</button>
 </form>
 
 <script>
@@ -101,13 +223,13 @@
     });
     </script>
 
-<h1>Crear Vendedor</h1>
-<form id="createForm">
+<h1>Nuevo Vendedor</h1>
+<form class="crearform" id="createForm">
     <label for="createId">ID:</label><br>
     <input type="number" id="createId" name="id" required><br>
     <label for="createNombre">Nombre:</label><br>
     <input type="text" id="createNombre" name="nombre" required><br>
-    <input type="submit" value="Crear Vendedor">
+    <button type="submit">Crear Vendedor</button>
 </form>
 
 <script>
